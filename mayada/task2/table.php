@@ -109,8 +109,10 @@ $users = [
                 foreach ($value as $key => $subvalue) {
                     if ($key=='gender'&& $subvalue=='m') {echo 'male'; break;} 
                     if ($key=='gender'&& $subvalue=='f') {echo 'female'; break;}
-                    if(gettype($key)=='string') { echo "<div>$key : $subvalue</div>";}
-                    else   echo $subvalue." ";  
+                    // if(gettype($key)=='string') { echo "<div>$key : $subvalue";}
+                     if(gettype($key)=='string') { echo $subvalue.'  ';}
+                     else   echo $subvalue." ";  
+                    //  echo '.';
                 }  
                 break;
              }
@@ -130,3 +132,14 @@ $users = [
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
 </html>
+<!-- $arr1= [
+            'painting',
+            'drawing'
+];
+
+	
+// Checking for sequential keys of array arr
+if(array_keys($arr1) !== range(0, count($arr1) - 1))
+	echo "Array is associative";
+else
+	echo "Array is sequential \n"; -->
