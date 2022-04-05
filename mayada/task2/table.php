@@ -100,7 +100,7 @@ $users = [
   <tbody>
        <?php foreach($users AS $user){?>
         <tr> <?php foreach($user AS $property => $value){?> 
-             <th scope='col'><?php  
+             <td scope='col'><?php  
               switch (gettype($value)) {
                  case 'integer':
                  case 'string':
@@ -118,7 +118,7 @@ $users = [
                 break;
              }
                 
-            ?></th> 
+            ?></td> 
              <?php } ?>
          </tr>
        <?php } ?>
