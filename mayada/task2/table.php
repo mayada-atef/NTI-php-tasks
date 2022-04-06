@@ -1,13 +1,10 @@
 <?php
-// dynamic table
-// dynamic rows
-// dynamic columns
-// check if gender of user == m ==> male
-// check if gender of user == f ==> female
 
 $users = [
     // (object)[
     //     'id' => 0,
+     // 'test'=>true,
+        // 'test2'=> 3.55,
     //     'name' => 'mayada',
     //     "gender" => (object)[
     //         'gender' => 'f'
@@ -28,6 +25,8 @@ $users = [
     // ],
     (object)[
         'id' => 1,
+        // 'test'=>true,
+        // 'test2'=> 3.55,
         'name' => 'ahmed',
         "gender" => (object)[
             'gender' => 'm'
@@ -39,9 +38,17 @@ $users = [
             "school" => 'drawing',
             'home' => 'painting'
         ],  
+        //  "xxxx" => (object)[
+        //     'zzzz' => 'yyyy'
+        //  ],
+        //  'www' => [
+        //     'ggg', 'ccc'
+        // ]
     ],
     (object)[
         'id' => 2,
+        //  'test'=>true,
+        // 'test2'=> 3.55,
         'name' => 'mohamed',
         "gender" => (object)[
             'gender' => 'm'
@@ -53,10 +60,18 @@ $users = [
             "school" => 'painting',
             'home' => 'drawing'
         ],
+        // "xxxx" => (object)[
+        //     'zzzz' => 'yyyy'
+        //  ],
+        //  'www' => [
+        //     'ggg', 'ccc'
+        // ]
       
     ],
     (object)[
         'id' => 3,
+        //  'test'=>true,
+        // 'test2'=> 3.55,
         'name' => 'menna',
         "gender" => (object)[
             'gender' => 'f'
@@ -68,6 +83,12 @@ $users = [
             "school" => 'painting',
             'home' => 'drawing'
         ],
+        // "xxxx" => (object)[
+        //     'zzzz' => 'yyyy'
+        //  ],
+        //  'www' => [
+        //     'ggg', 'ccc'
+        // ]
        
     
     ], 
@@ -102,19 +123,19 @@ $users = [
         <tr> <?php foreach($user AS $property => $value){?> 
              <td scope='col'><?php  
               switch (gettype($value)) {
-                 case 'integer':
-                 case 'string':
-                     echo $value;
-                     break;
-                default:    
-                foreach ($value as $key => $subvalue) {
+                 case 'array':
+                 case 'object':
+                     foreach ($value as $key => $subvalue) {
                     if ($key=='gender'&& $subvalue=='m') {echo 'male'; break;} 
                     if ($key=='gender'&& $subvalue=='f') {echo 'female'; break;}
                     // if(gettype($key)=='string') { echo "<div>$key : $subvalue";}
                      if(gettype($key)=='string') { echo $subvalue.'  ';}
                      else   echo $subvalue." ";  
                     //  echo '.';
-                }  
+                     } 
+                     break;
+                default:    
+                echo $value; 
                 break;
              }
                 
