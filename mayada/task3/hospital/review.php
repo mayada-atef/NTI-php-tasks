@@ -1,7 +1,7 @@
 <?php 
 include_once "layouts/header.php";
 $title="Review";
-// unset($_SESSION['qAnswers']);
+unset($_SESSION['qAnswers']);
 $_SESSION['Question?']=[
     'Are you satisfied with the level of cleanliness?',
      'Are you satisfied with the service prices?',
@@ -10,7 +10,6 @@ $_SESSION['Question?']=[
         'Are you satisfied with the calmness in the hospital?',
 ];
 $_SESSION['rate']=['bad','good','very Good','excellent'];
-
 if ($_SERVER["REQUEST_METHOD"]==='POST'){
 foreach($_POST AS $key => $rate){
    $_SESSION['qAnswers'][$key]=$rate;
@@ -43,6 +42,7 @@ header('location:result.php');
                 </td>
                  <?php }?>  
              </tr>
+      
              
         <?php }?>
   </tbody>

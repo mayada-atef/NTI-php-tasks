@@ -1,9 +1,14 @@
 <?php 
 include_once "layouts/header.php";
 $title="welcome";
+$errors=[];
 if ($_SERVER["REQUEST_METHOD"]==='POST'){
-$_SESSION['phone']=$_POST['phone'];
-header('location:review.php');
+    if (empty($_POST['phone'])) $errors['phone-requried']="<div class='text-danger'>phone is required</div>";
+     if (empty($errors)) {
+         $_SESSION['phone']=$_POST['phone'];
+         header('location:review.php');
+     }
+
 
 }
  
@@ -16,7 +21,9 @@ header('location:review.php');
                 <div class="form-group">
                   <label for="phone">Phone</label>
                   <input type="text" name="phone" id="phone" class="form-control" placeholder="enter your phone">  
+                 <?=$errors['phone-requried']?? "" ?>
                 </div>
+
                 <button class="btn btn-warning"> sumbit </button>
            </form>
      
