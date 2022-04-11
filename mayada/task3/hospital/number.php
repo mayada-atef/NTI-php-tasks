@@ -3,6 +3,7 @@ include_once "layouts/header.php";
 $title="welcome";
 $errors=[];
 if ($_SERVER["REQUEST_METHOD"]==='POST'){
+    print_r($_POST);
     if (empty($_POST['phone'])) $errors['phone-requried']="<div class='text-danger'>phone is required</div>";
      if (empty($errors)) {
          $_SESSION['phone']=$_POST['phone'];
