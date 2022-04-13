@@ -1,5 +1,5 @@
 <?php
- function productTable ($nproduct,$products){ 
+ function productTable ($numberOFproducts,$products){ 
     $table=  '<table class="table table-light">
                     <thead>
                         <tr class="text-center">
@@ -9,10 +9,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <form action="" method="post">';
-       echo $nproduct.'nproducts'.'<br>';
-       print_r($products);
-    for ($i=1;$i<=$nproduct;$i++){
+                       ';
+    for ($i=1;$i<=$numberOFproducts;$i++){
         $table .= '<tr><td>';
         (empty($products['productName'.$i]))? 
          $table .= "<input type='text' class='form-control' name='productName$i'>":  $table .= $products['productName'.$i];
@@ -26,43 +24,106 @@
     
          $table .= '</td></tr>';
         }
-        // name="button" value="recipt"
-        $table .=  '<button type="submit"  class="btn btn-light form-control">Recipt</button>
-                        </form>
+     
+        $table .=  '<button type="submit" name="button" value="recipt" class="btn btn-light form-control">Recipt</button>
+                       
                     </tbody>
                 </table>';
     return $table;
  }
-//  function numberOfProducts($nproduct){
-//      static  $nproducts;
-//      $nproducts=$nproduct;
-//      return $nproducts; 
-//  }
+ function calPrice ($products){ $price=0;
+    for ($i=1;$i<=$products['numberOfProducts'];$i++){ 
+    $price+= $products['productPrice'.$i]*$products['productQuantity'.$i];
+    }
+    return $price;
+  }
+function  reciptTable($products){
+  //delivery
+  if ($products['city']=='cairo') $delivery=0;
+  elseif ($products['city']=='giza') $delivery=30;
+  elseif ($products['city']=='alex') $delivery=50;
+  else $delivery=100;
+  
+    //discount
+    $price=calPrice ($products);
+    if ($price<1000) $discount=0;
+    elseif ($price>=1000&&$price<3000) $discount=0.1;
+    elseif ($price>=3000&&$price<4500)  $discount=0.15;
+    elseif ($price>=4500) $discount=0.2;
 
-$products=[];
-if ($_SERVER['REQUEST_METHOD']==="POST"){
-   
-    if (!empty($_POST['button']))  {
-        $nproduct=$_POST['nproduct'];
-        $table=productTable($nproduct,[]);
-    }
-    // if ($_POST['button']=='recipt'){}
-    else{
-        
-        $products=$_POST;
-        // $nproduct=numberOfProducts(null);
-        $table=productTable(1,$products);
-    }
-    
-   
-    
-   
+    // totalprice
+    $totalprice=$price-$price*$discount;
+    $netprice=$totalprice+$delivery;
+
+
+    $recipt='<table class="table">    
+                <tbody>
+                  <tr>
+                    <th scope="row">User Name</th>
+                    <td>';
+  $recipt.=$products["name"];
+   $recipt.='</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">City</th>
+                    <td>'; 
+  $recipt.= $products["city"];
+   $recipt.=  '</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Price</th>
+                        <td>';
+    $recipt.=        $price;
+    $recipt.=            '</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Discount</th>
+                        <td>';
+      $recipt.=     $price*$discount .'<br>'; 
+      $recipt.=   $discount*100; 
+     $recipt.=  '%</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Total Price</th>
+                        <td>';
+    $recipt.=        $totalprice;
+    $recipt.=  '</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Delivery</th>
+                        <td>';
+    $recipt.=        $delivery;
+    $recipt.=  '</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Net Price</th>
+                        <td>';
+    $recipt.=        $netprice;
+     $recipt.= '</td>
+                </tr>
+
+                </tbody>
+              </table>';
+    return $recipt;
 
 }
-
-
+$products=[];
+ 
+if ($_SERVER['REQUEST_METHOD']==="POST"){
+   
+    if (($_POST['button']=='product'))  {
+        $table=productTable($_POST['numberOfProducts'],[]);
+      
+    }
+    if ($_POST['button']=='recipt'){
+      // print_r($_POST);
+        $products=$_POST;
+        $table=productTable($_POST['numberOfProducts'],$products);
+        $recipt=reciptTable($products);
+    }
+}
 ?>
-
+  
 
 <!doctype html>
 <html lang="en">
@@ -86,20 +147,31 @@ if ($_SERVER['REQUEST_METHOD']==="POST"){
                       <input type="text" name="name" id="name" class="form-control" 
                       placeholder="Enter your name" value="<?=$_POST['name']??''?>" >
                     </div>
-                    <div class="form-group">
-                      <label for="city">City</label>
-                      <input type="text" name="city" id="city" class="form-control" 
-                      placeholder="Entr your City" value="<?=$_POST['city']??''?>">
-                    </div>
+                    <!-- `a ? b : (c ? d : e)` -->
+                      <div class="form-group">
+                        <label for="city">City</label>
+                        <select class="form-control" name="city" id="city">
+                          <option value="cairo" 
+                         <?php echo (empty($_POST['city']))?"":(($_POST['city']=='cairo')?"selected":"");?>>cairo</option>
+                        <option value="giza" 
+                        <?php echo (empty($_POST['city']))?"":(($_POST['city']=='giza')?"selected":"");?>>giza</option>
+                        <option value="alex"
+                        <?php echo (empty($_POST['city']))?"":(($_POST['city']=='alex')?"selected":"");?>>alex</option>
+                        <option value="others"
+                        <?php echo (empty($_POST['city']))?"":(($_POST['city']=='others')?"selected":"");?>>others</option>
+                        </select>
+                      </div>
                      <div class="form-group">
-                      <label for="nproduct">Number of Varities</label>
-                      <input type="number" name="nproduct" id="nproduct" class="form-control" 
-                      placeholder="Entr your product numbers" value="<?=$_POST['nproduct']??''?>">
+                      <label for="numberOfProducts">Number of Varities</label>
+                      <input type="number" name="numberOfProducts" id="numberOfProducts" class="form-control" 
+                      placeholder="Entr your product numbers" value="<?=$_POST['numberOfProducts']??''?>">
              
                     </div>
                     <button  name="button" value="product" class="btn btn-dark form-control">Submit</button>
+                      <?= $table??''?>
                 </form>
-                <?= $table??''?>
+                 <?= $recipt??''?>
+              
 
           </div>  
         </div>

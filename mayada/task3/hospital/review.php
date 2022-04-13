@@ -12,8 +12,7 @@ $_SESSION['Question?']=[
 $_SESSION['rate']=['bad','good','very Good','excellent'];
 $errors=[];
 if ($_SERVER["REQUEST_METHOD"]==='POST'){
-    //   print_r($_POST);
-    if (!$_POST || count($_POST)<5)  $error= "<div class='bg-danger text-center'>review  required</div>";
+    if (!$_POST || count($_POST)<5) { $error= "<div class='bg-danger text-center'>review  required</div>"; }
     else { 
         foreach($_POST AS $key => $rate){
             // if (empty($_POST[$key])) $errors[$key]="<div class='bg-danger text-center'>review of $key required</div>";
@@ -30,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"]==='POST'){
 <section class="container ">
     <div class="col-12 text-warning text-center my-5 h2"><?= $title?></div>
     <div class="col-8 offset-2">
-        <form action="" method="post">
+        <form method="post">
             <table class="table">
                 <thead>
                     <tr>
@@ -62,10 +61,3 @@ if ($_SERVER["REQUEST_METHOD"]==='POST'){
     </div>
 </section>
 <?php include_once "layouts/footer.php";?>
-<!-- // $_SESSION['Question?']=[
-//     'Are you satisfied with the level of cleanliness?'=>'',
-//      'Are you satisfied with the service prices?'=>'',
-//       'Are you satisfied with the nursing service'=>'',
-//        'Are you satisfied with the level of the doctor?'=>'',
-//         'Are you satisfied with the calmness in the hospital?'=>'',
-// ]; -->
