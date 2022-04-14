@@ -74,12 +74,12 @@ function  reciptTable($products){
                     <th scope="row">Price</th>
                         <td>';
     $recipt.=        $price;
-    $recipt.=            '</td>
+    $recipt.=            'EGP</td>
                   </tr>
                   <tr>
                     <th scope="row">Discount</th>
                         <td>';
-      $recipt.=     $price*$discount .'<br>'; 
+      $recipt.=     $price*$discount .'EGP<br>'; 
       $recipt.=   $discount*100; 
      $recipt.=  '%</td>
                   </tr>
@@ -87,19 +87,19 @@ function  reciptTable($products){
                     <th scope="row">Total Price</th>
                         <td>';
     $recipt.=        $totalprice;
-    $recipt.=  '</td>
+    $recipt.=  'EGP</td>
                   </tr>
                   <tr>
                     <th scope="row">Delivery</th>
                         <td>';
     $recipt.=        $delivery;
-    $recipt.=  '</td>
+    $recipt.=  'EGP</td>
                   </tr>
                   <tr>
                     <th scope="row">Net Price</th>
                         <td>';
     $recipt.=        $netprice;
-     $recipt.= '</td>
+     $recipt.= 'EGP</td>
                 </tr>
 
                 </tbody>
