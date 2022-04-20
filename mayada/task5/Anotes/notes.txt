@@ -1,0 +1,82 @@
+<?php 
+
+<?= displayError($_SESSION, 'first_name') ?? "" ?>
+
+// for run project from terminal 
+// php -S localhost:8000
+// php -S 127.0.0.1:8000
+ 
+ /*****************    important don't forget name space in each folder    ***************/
+
+// composer  help us to deal with packeges 
+/*
+1- create composer.php in outer folder that contain all project 
+
+2- write code in composer 
+     define autoloader 
+     define namespace (\\ first \ skip operator second \ for namespace)  : directory  (/)
+     // 
+3- run composer dumpautoload ==> download vendor  
+4- include vendor/autoload.php in all file that need auto load  // save effort => include it in header.php 
+*/
+
+/*session array that all project see it but it neet to define it to use =>
+session_start(); should be in first thing in file if i will use it in this file*/
+// session_unset(); destory session 
+
+
+/* 
+(return $this) in function in class to make channing=> calling function from another function in class 
+new user-> create();
+new user -> update();   one line insteed more line 
+new user -> create() -> update();  
+*/
+
+/*
+to display variable inside string  use {} like "hi {$var}"
+*/
+
+<?php
+ /****************** built in functions *******************/
+   str_replace(search,repalcer,string)                 :take search (anychar) replace it with replacer 
+   in_array(value,array)                              : check value in array or not 
+  implode                                           :change array to string 
+   strlen(string)                                       : claculate length of string 
+    __FUNCTION__                                         : return function name only 
+  ctype_digit($string)                                   : check type of string characters number or mot 
+  preg_match($regex,$var)                                     : check regular expression match 
+  get_result()->num_rows                                     : getresult from prepare mysqli and 
+                                                                get number of rows of response
+?>
+
+
+
+/***********************    connection example      *******************/ 
+<?php
+$servername = "localhost";
+$username = "username";
+$password = "password";
+$dbname = "myDB";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+// prepare and bind
+$stmt = $conn->prepare("INSERT INTO MyGuests (firstname, lastname, email) VALUES (?, ?, ?)");
+$stmt->bind_param("sss", $firstname, $lastname, $email);
+
+// set parameters and execute
+$firstname = "Mary";
+$lastname = "Moe";
+$email = "mary@example.com";
+$stmt->execute();
+echo "New records created successfully";
+
+$stmt->close();
+$conn->close();
+?>
