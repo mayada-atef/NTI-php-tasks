@@ -17,17 +17,23 @@ class connection
     {
         // echo "hi";
         //built in class open connection 
-        $con = new mysqli($this->dbHost, $this->dbUsername, $this->dbPassword, $this->databaseName, $this->dbPort);
+        $this->con = new mysqli(
+            $this->dbHost,
+            $this->dbUsername,
+            $this->dbPassword,
+            $this->databaseName,
+            $this->dbPort
+        );
 
-        // // Check connection
-        // if ($con->connect_error) {
-        //     die("Connection failed: " . $con->connect_error);
-        // }
-        // echo "Connected successfully";
+        // Check connection
+        if ($this->con->connect_error) {
+            die("Connection failed: " . $this->con->connect_error);
+        }
+        echo "Connected successfully";
     }
     public function __destruct()
     {
         $this->con->close();
     }
 }
-// new connection;
+new connection;

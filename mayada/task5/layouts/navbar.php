@@ -72,14 +72,25 @@
                              </nav>
                          </div>
                          <div class="header-currency">
-                             <span class="digit">welcome <i class="ti-angle-down"></i></span>
-                             <div class="dollar-submenu">
-                                 <ul>
-                                     <li><a href="signUp.php">sign up</a></li>
-                                     <li><a href="signIn.php">sign in </a></li>
+                             <?php if (!isset($_SESSION['user'])) { ?>
+                                 <span class="digit">welcome <i class="ti-angle-down"></i></span>
+                                 <div class="dollar-submenu">
+                                     <ul>
+                                         <li><a href="signUp.php">sign up</a></li>
+                                         <li><a href="signIn.php">sign in </a></li>
 
-                                 </ul>
-                             </div>
+                                     </ul>
+                                 </div>
+                             <?php } else { ?>
+                                 <span class="digit"><?= $_SESSION['user']->first_name ?><i class="ti-angle-down"></i></span>
+                                 <div class="dollar-submenu">
+                                     <ul>
+                                         <li><a href="myAccount.php">my account</a></li>
+                                         <li><a href="logOut.php">log out</a></li>
+
+                                     </ul>
+                                 </div>
+                             <?php } ?>
                          </div>
                          <div class="header-cart">
                              <a href="#">

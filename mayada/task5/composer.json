@@ -6,5 +6,8 @@
         "files": [
             "app/helper/functions.php"
         ]
+    },
+    "require": {
+        "phpmailer/phpmailer": "^6.6"
     }
 }

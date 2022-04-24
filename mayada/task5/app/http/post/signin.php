@@ -1,21 +1,30 @@
 <?php
-// finished 
+
 use app\database\models\user;
 use app\http\requests\validation;
 
-include_once "vendor/autoload.php";
+include_once "../../../vendor/autoload.php";
+include_once "../midlewares/postAuthontication.php";
+// any auth person will open this will go to index 
+// include_once "../midlewares/autherized.php";
+session_start();
+
 define('NOTACTIVE', 0);
 // validation 
 $validationObj = new validation;
 
-$validationObj->setKey('email')->setValue($_POST['email'])->required()->max(64)->exist('users')
-    ->regex('/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/');
+$validationObj->setKey('email')->setValue($_POST['email'])->required()->max(64)
+    ->regex('/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/')->exist('users', 'email');
 $validationObj->setKey('password')->setValue($_POST['password'])->required()
     ->regex('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/');
-
+// print_r($_POST);
+// print_r($_SESSION);
+// print_r($validationObj->getErrors());
+// die;
 // check errors if found reload pages with errors
 if (!empty($validationObj->getErrors())) {
     $_SESSION['errors'] = $validationObj->getErrors();
+    print_r($_SESSION);
     $_SESSION['old'] = $_POST;
     header('location:../../../signIn.php');
     die;
@@ -32,7 +41,9 @@ if ($result->num_rows != 1) {
     header("location:../../../signIn.php");
     die;
 }
+
 $currentUser = $result->fetch_object(user::class);
+// current class contain all user's properities
 if (!password_verify($_POST['password'], $currentUser->getPassword())) {
     $_SESSION['errors']['password']['wrong'] = "email or password wrong ";
     $_SESSION['old'] = $_POST;

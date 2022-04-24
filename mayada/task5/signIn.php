@@ -4,6 +4,7 @@ $title = "SIGN IN";
 include_once "layouts/header.php";
 include_once "layouts/navbar.php";
 include_once "layouts/breadcrump.php";
+// include_once "app/http/midlewares/notautherized.php";
 ?>
 
 
@@ -21,10 +22,18 @@ include_once "layouts/breadcrump.php";
                     <div class="tab-content">
                         <div id="lg1" class="tab-pane active">
                             <div class="login-form-container">
+                                <?= displayError($_SESSION, 'something')  ?>
                                 <div class="login-register-form">
                                     <form action="app/http/post/signin.php" method="post">
                                         <input name="email" placeholder="Email" type="email">
-                                        <input type="password" name="user-password" placeholder="Password">
+                                        <?= displayError($_SESSION, 'email')  ?>
+                                        <input type="password" name="password" placeholder="Password">
+                                        <?= displayError($_SESSION, 'password')  ?>
+                                        <div class="login-toggle-btn">
+                                            <input type="checkbox" name="remember_me" value="remember" id="remember_me">
+                                            <label for="remember_me">Remember me</label>
+                                            <a href="verifyEmail.php">Forgot Password?</a>
+                                        </div>
                                         <div class="button-box">
                                             <button type="submit"><span><?= $title ?></span></button>
                                         </div>

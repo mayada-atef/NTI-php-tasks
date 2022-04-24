@@ -1,7 +1,7 @@
 <?php
 $title = "verify code";
 include_once "layouts/header.php";
-
+// include_once "app/http/midlewares/autherized.php";
 ?>
 
 
@@ -19,9 +19,11 @@ include_once "layouts/header.php";
                     <div class="tab-content">
                         <div id="lg1" class="tab-pane active">
                             <div class="login-form-container">
+                                <?= displayError($_SESSION, 'something') ?>
                                 <div class="login-register-form">
-                                    <form action="app/http/post/signin.php" method="post">
-                                        <input type="number" name="confirmation_code" placeholder="Enter verfication code">
+                                    <form action="app/http/post/verificationcode.php" method="post">
+                                        <input type="number" name="verification_code" placeholder="Enter verfication code">
+                                        <?= displayError($_SESSION, 'verification_code') ?>
                                         <div class="button-box">
                                             <button type="submit"><span><?= $title ?></span></button>
                                         </div>

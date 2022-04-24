@@ -238,7 +238,6 @@ class user extends connection implements crud
     {
         $query = "INSERT INTO `users` ( `first_name`,`last_name`, `email`, `password`,
          `phone`, `gender`,`verification_code`) VALUES (?,?,?,?,?,?,?)";
-        // this insteed of making object from connection because i already inhert it 
         $stmt = $this->con->prepare($query);
         if (!$stmt) {
             return false;
@@ -266,7 +265,6 @@ class user extends connection implements crud
     }
     public function getUserByEmail()
     {
-
         $stmt = $this->con->prepare("SELECT * FROM `users` WHERE `email`= ?");
         $stmt->bind_param('s', $this->email);
         if (!$stmt) {
@@ -274,6 +272,44 @@ class user extends connection implements crud
         }
         $stmt->execute();
         return $stmt->get_result();
+    }
+    public function checkVerificationCode()
+    {
+        $stmt = $this->con->prepare("SELECT * FROM `users` WHERE `email`= ? AND `verification_code`=?");
+        $stmt->bind_param('si', $this->email, $this->verification_code);
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+    public function makeUserVerified()
+    {
+        $query = "UPDATE `users` SET `email_verified_at`=? WHERE `email`= ?";
+        $stmt = $this->con->prepare($query);
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->bind_param(
+            'ss',
+            $this->email_verified_at,
+            $this->email
+        );
+        return $stmt->execute();
+    }
+    public function updateVerificationCode()
+    {
+        $query = "UPDATE `users` SET `verification_code`=? WHERE `email`= ?";
+        $stmt = $this->con->prepare($query);
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->bind_param(
+            'ss',
+            $this->verification_code,
+            $this->email
+        );
+        return $stmt->execute();
     }
     public function userSaveData()
     {

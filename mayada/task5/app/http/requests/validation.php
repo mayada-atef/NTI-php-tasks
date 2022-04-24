@@ -29,15 +29,13 @@ class validation
     }
     public function unique($table, $column = "")
     {
-        if (!isset($column)) {
+        if (!($column)) {
             $column = $this->key;
         }
         $connectionObj = new connection;
-        $stmt = $connectionObj->con->prepare("SELECT * FROM `{$table}` WHERE {$column}= ?");
+        $query = "SELECT * FROM `{$table}` WHERE {$column}= ?";
+        $stmt = $connectionObj->con->prepare($query);
         $stmt->bind_param('s', $this->value);
-        if (!$stmt) {
-            return false;
-        }
         $stmt->execute();
         if ($stmt->get_result()->num_rows == 1) {
             $this->errors[$this->key][__FUNCTION__] = getError::errorMessage("{$this->key}  is already exist ");
@@ -47,11 +45,13 @@ class validation
 
     public function exist($table, $column = "")
     {
-        if (!isset($column)) {
+        if (!($column)) {
             $column = $this->key;
         }
         $connectionObj = new connection;
-        $stmt = $connectionObj->con->prepare("SELECT * FROM `{$table}` WHERE {$column}= ?");
+        $query = "SELECT * FROM `{$table}` WHERE {$column}= ?";
+        $stmt = $connectionObj->con->prepare($query);
+        print_r($query);
         $stmt->bind_param('s', $this->value);
         if (!$stmt) {
             return false;
@@ -60,7 +60,6 @@ class validation
         if ($stmt->get_result()->num_rows != 1) {
             $this->errors[$this->key][__FUNCTION__] = getError::errorMessage("{$this->key} not exist ");
         }
-
         return $this;
     }
     public function integer()
@@ -73,7 +72,7 @@ class validation
     public function regex($regularExpression, $message = "invalid")
     {
         if (!preg_match($regularExpression, $this->value)) {
-            $this->errors[$this->key][__FUNCTION__] = getError::errorMessage("{$this->key}{$message}");
+            $this->errors[$this->key][__FUNCTION__] = getError::errorMessage("{$this->key}  {$message}");
         }
         return $this;
     }
@@ -106,6 +105,7 @@ class validation
         }
         return $this;
     }
+
 
 
     /* get value of key*/

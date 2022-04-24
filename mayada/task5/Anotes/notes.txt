@@ -47,7 +47,17 @@ to display variable inside string  use {} like "hi {$var}"
   preg_match($regex,$var)                                     : check regular expression match 
   get_result()->num_rows                                     : getresult from prepare mysqli and 
                                                                 get number of rows of response
+  date("y-m-d h:i:s")                                      : generate current time 
+  $result->fetch_object(user::class);                       : fetch response of database as object
+                                                             "as user object with all properties that class extends "
+   $result->fetch_object(stdclass );                      default                                                          
+  $result->fetch_all();                                      :fetch response as array 
+  $result->fetch_assoc(); 
+  is_null ()                                                  :return true if null
+  password_verify                                              : check password
+  define('NOTACTIVE', 0);                                       :define constant 
 ?>
+
 
 
 
